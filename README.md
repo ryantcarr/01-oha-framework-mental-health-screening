@@ -2,7 +2,14 @@
 
 Working title: **Developing an Organizational Health Assessment Framework: Insights from Mental Health Screening Tools**
 
-This is a standalone LaTeX project for the published INCOSE foundation contribution identified in the practicum proposal presentation.
+This is a standalone LaTeX/Git project for the OHA framework foundation paper. The project now uses the INCOSE conference LaTeX template structure from `wileyNJDv5_AMA(4).tex`.
+
+## Files
+
+- `main.tex` - INCOSE-formatted paper source.
+- `references.bib` - bibliography imported from the practicum proposal project.
+- `template-images/` - INCOSE template logo assets.
+- `Images/` - author biography image assets.
 
 ## Build
 

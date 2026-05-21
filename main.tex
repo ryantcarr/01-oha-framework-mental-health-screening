@@ -1,45 +1,309 @@
-\documentclass[12pt, letterpaper]{article}
+% =================================================================
+% INCOSE Conference LaTeX Template V1.2 (Release Date: November 4th, 2025)
+% Copyright (c) 2025 INCOSE
+%
+% This template is provided for use in preparing manuscripts for
+% INCOSE conferences. You may use, modify, and
+% distribute this template for academic and professional purposes.
+%
+% This template is provided "as is" without warranty of any kind.
+% The author(s) disclaim all warranties, express or implied,
+% including but not limited to warranties of merchantability and
+% fitness for a particular purpose.
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
-\usepackage[margin=1in]{geometry}
-\usepackage{setspace}
+% =================================================================
+
+\documentclass[11pt,letterpaper]{article}
+
+% ---------- Core layout ----------
+\usepackage[
+  letterpaper,
+  left=0.6in,right=0.6in,top=0.6in,bottom=0.6in,
+  headheight=85pt,headsep=-45pt
+]{geometry}
+\raggedbottom
 \usepackage{graphicx}
+\graphicspath{{./}{figures/}}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+% ---------- Captions & float spacing ----------
+\usepackage{caption}
+\captionsetup{
+  font={sf,bf,footnotesize},
+  labelfont={sf,bf,footnotesize},
+  justification=centering,
+  labelsep=period,
+  hypcap=false
+}
+\setlength{\textfloatsep}{8pt}
+\setlength{\floatsep}{6pt}
+\setlength{\intextsep}{8pt}
+\setlength{\abovecaptionskip}{12pt}
+\setlength{\belowcaptionskip}{1pt}
+
+% ---------- Tables / lists ----------
 \usepackage{booktabs}
-\usepackage{amsmath, amssymb}
-\usepackage{hyperref}
-\usepackage[style=apa, backend=biber]{biblatex}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\setlist{nosep}
+\usepackage[table]{xcolor}
+\definecolor{tableheader}{HTML}{D9D9D9}
+\newcolumntype{P}[1]{>{\sffamily\centering\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\sffamily\centering\arraybackslash}X}
+\newcolumntype{A}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\raggedright\arraybackslash}m{#1}}
 
+% ---------- Fonts ----------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{PTSerif}
+\usepackage[scaled]{helvet}
+\renewcommand{\sfdefault}{phv}
+\newcommand{\headingfont}{\sffamily}
+
+% ---------- Headings ----------
+\usepackage{titlesec}
+\setcounter{secnumdepth}{0}
+
+\titleformat{\section}
+  {\headingfont\bfseries\raggedright\fontsize{18pt}{18pt}\selectfont}{}{0.75em}{}
+\titleformat{\subsection}
+  {\headingfont\bfseries\raggedright\fontsize{15pt}{16pt}\selectfont}{}{0.75em}{}
+\titleformat{\subsubsection}
+  {\headingfont\bfseries\raggedright\fontsize{12pt}{14pt}\selectfont}{}{0.75em}{}
+
+\titlespacing*{\section}{0pt}{7pt}{6pt}
+\titlespacing*{\subsection}{0pt}{7pt}{6pt}
+\titlespacing*{\subsubsection}{0pt}{7pt}{6pt}
+
+\newcommand{\miniheading}[1]{%
+  \par\noindent{\headingfont\bfseries\fontsize{12pt}{14pt}\selectfont #1}\par\vspace{4pt}%
+}
+
+% ---------- Paragraphing ----------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 1pt minus 1pt}
+
+% ---------- Page numbers ----------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhfoffset[R]{18pt}
+\setlength{\footskip}{18pt}
+\fancyfoot[R]{\sffamily\bfseries\footnotesize \thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% INCOSE logo
+\fancypagestyle{firstpage}{
+  \fancyhf{}
+  \fancyhfoffset[R]{18pt}
+  \fancyhead[R]{%
+    \smash{\raisebox{0pt}[0pt][0pt]{
+      \begingroup\setlength{\fboxsep}{20pt}
+        \colorbox{white}{\includegraphics[height=0.6in]{template-images/incose-logo.jpg}}%
+      \endgroup
+    }}
+  }
+  \fancyfoot[R]{\sffamily\bfseries\footnotesize \thepage}
+  \renewcommand{\headrulewidth}{0pt}
+  \renewcommand{\footrulewidth}{0pt}
+}
+
+% ---------- Title Formatting ----------
+\makeatletter
+\@ifundefined{theauthor}{}{\let\theauthor\relax}
+\makeatother
+\usepackage{titling}
+\pretitle{\headingfont\bfseries\fontsize{24pt}{26pt}\selectfont\raggedright}
+\posttitle{\par\vspace{-.3in}}
+\preauthor{}\postauthor{}
+\author{\mbox{}}
+\date{}
+\setlength{\droptitle}{-3.2\baselineskip}
+
+% ---------- Author cards ----------
+\newcommand{\authorcard}[5]{%
+  {\headingfont\bfseries\fontsize{12pt}{14pt}\selectfont #1}\par
+  {\headingfont\bfseries\fontsize{12pt}{14pt}\selectfont #2}\par
+  {\headingfont\bfseries\fontsize{12pt}{14pt}\selectfont #3}\par
+  {\headingfont\bfseries\fontsize{12pt}{14pt}\selectfont #4}\par
+  {\headingfont\bfseries\fontsize{12pt}{14pt}\selectfont #5}\par
+}
+
+% ---------- Biography photo placeholder and entry ----------
+\makeatletter
+\newcommand{\authorpic}[1]{%
+    \includegraphics[width=0.6in,height=0.6in,keepaspectratio,clip]{#1}%
+}
+\makeatother
+
+\newcommand{\authorbioentry}[3]{%
+  \noindent\begin{tabular}{@{}m{0.5in} M{\dimexpr\columnwidth-0.5in\relax}@{}}
+    \authorpic{#1} & \textbf{#2}\par #3
+  \end{tabular}\par\medskip
+}
+
+% ---------- Safe figure include ----------
+\makeatletter
+\newcommand{\colfig}[2][]{%
+  \IfFileExists{#2}{\includegraphics[width=\linewidth,#1]{#2}}{%
+    \fbox{\parbox[b][1.5in][c]{\linewidth}{\centering \textit{Missing figure: }#2}}}%
+}
+\makeatother
+
+% ---------- References: APA via biblatex/biber ----------
+\let\theauthor\relax
+\usepackage{csquotes}
+\usepackage[style=apa,backend=biber]{biblatex}
 \addbibresource{references.bib}
-\onehalfspacing
 
+% ---------- Highlight callouts ----------
+\usepackage{changepage}
+\newenvironment{highlight}[1][0.25in]{%
+  \begin{adjustwidth}{#1}{#1}\itshape}{\end{adjustwidth}}
+
+% ---------- Two-column setup ----------
+\usepackage{multicol}
+\setlength{\columnsep}{18pt}
+
+% ---------- Hyperlinks ----------
+\usepackage[hidelinks]{hyperref}
+
+% =========================
+% ===== Title & Authors ===
+% =========================
 \title{Developing an Organizational Health Assessment Framework:\\Insights from Mental Health Screening Tools}
-\author{Ryan Carr}
-\date{\today}
 
 \begin{document}
-
 \maketitle
+\thispagestyle{firstpage}
 
-\begin{abstract}
-TODO: Summarize the Organizational Health Assessment framework contribution, including the transfer of brief mental health screening logic to organizational health assessment in systems engineering settings.
-\end{abstract}
+% ---- Authors ----
+% For anonymous review, comment out this author block.
+\noindent
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}} A{0.32\textwidth} A{0.32\textwidth} A{0.32\textwidth}}
+  \authorcard{Ryan Carr}{Colorado State University}{Department of Systems Engineering}{Fort Collins, Colorado, USA}{ryan.carr@colostate.edu} &
+  \authorcard{Thomas Bradley}{Colorado State University}{Department of Systems Engineering}{Fort Collins, Colorado, USA}{TODO: email} &
+  \authorcard{Steve Conrad}{TODO: Organization}{TODO: Department or Role}{TODO: City, State, Country}{TODO: email}
+\end{tabular*}
+\addvspace{.75in}
 
+% ---- Two columns begin immediately after authors ----
+\begin{multicols*}{2}
+\raggedcolumns
+
+% ---- Copyright ----
+{\headingfont\bfseries\fontsize{8pt}{12pt}\selectfont
+Copyright~\textcopyright~ \the\year{} by the author(s). Permission granted to INCOSE to publish and use.}
+\\
+
+% =========================
+% ===== Abstract/Keywords =
+% =========================
+\phantomsection
+\miniheading{Abstract}
+Systems engineering organizations need lightweight ways to monitor organizational health before recurring dysfunction becomes entrenched. Comprehensive organizational health instruments provide rich diagnostic coverage, but their length and administration burden make them poorly suited for repeated use by project teams. This paper develops the Organizational Health Assessment (OHA), a brief screening framework for systems engineering settings, by adapting design logic from validated mental health screeners such as the PHQ-9 and GAD-7. The proposed framework treats organizations as complex adaptive systems and uses systems engineering pathology to identify domains where organizational dysfunction becomes observable. The result is a six-domain assessment architecture intended to support recurring monitoring, early detection, and targeted follow-up rather than definitive diagnosis. The paper contributes a public, theoretically grounded framework for brief organizational health screening and establishes the conceptual foundation for subsequent computational characterization and empirical pilot testing.
+
+\phantomsection
+\subsubsection{Keywords}
+organizational health assessment, systems engineering, brief screening, complex adaptive systems, systems engineering pathology, psychometric instruments
+
+% =========================
+% ===== Main Content ======
+% =========================
 \section{Introduction}
-TODO: Introduce the organizational health measurement gap and the need for a brief, repeatable screener.
+Systems engineering work depends on organizations that can align around shared goals, execute effectively, adapt as conditions change, and sustain the conditions required for long-term performance. When those capacities degrade, the resulting problems often appear as local symptoms: unclear roles, process instability, resource mismatch, poor decision flow, weak collaboration, or execution breakdowns. By the time these symptoms become visible in program outcomes, the underlying organizational pattern may already be difficult to correct.
+
+Healthcare uses brief screeners to make latent health states visible early enough for follow-up. The PHQ-9 and GAD-7 are not substitutes for comprehensive clinical assessment, but they provide repeatable, low-burden indicators that can be used routinely \parencite{kroenke2001,spitzer2006}. This paper asks whether the same design logic can inform a brief organizational health screener for systems engineering organizations.
+
+The proposed Organizational Health Assessment (OHA) is not intended to replace comprehensive organizational diagnosis. Its purpose is narrower: to provide a concise, public, repeatable assessment framework that can flag emerging organizational health concerns and support deeper investigation where warranted. The framework builds on complex adaptive systems theory, systems engineering pathology, and brief psychometric screening precedents \parencite{holland1995,anderson1999,davidz2018,carr2025}.
 
 \section{Background}
-TODO: Review brief psychometric screeners, organizational health, and systems engineering pathology.
+\subsection{Brief Screeners as a Design Pattern}
+Brief psychometric screeners work by sampling a small number of high-information indicators rather than measuring every possible feature of a construct. Their usefulness depends on disciplined construct definition, consistent response scales, interpretable scoring, and validation against more comprehensive comparators. In clinical practice, this logic allows frequent monitoring without imposing the burden of a full diagnostic interview at every encounter \parencite{kroenke2001,spitzer2006}.
 
-\section{Framework Development}
-TODO: Present the OHA domains, design principles, item logic, and intended use.
+The organizational analog is not a direct transfer of mental health content. Instead, the transfer is architectural: a brief instrument samples key indicators of a larger system state, supports repeated measurement, and points to follow-up assessment when results warrant it.
+
+\subsection{Organizations as Complex Adaptive Systems}
+Organizations exhibit feedback, adaptation, self-organization, emergence, and path dependence. These properties make organizational health a system-level state rather than a simple sum of isolated parts \parencite{holland1995,anderson1999}. A brief organizational screener must therefore sample across interdependent domains instead of reducing health to a single narrow metric such as engagement, morale, or process compliance.
+
+\subsection{Systems Engineering Pathology}
+Systems engineering pathology provides a domain-specific vocabulary for recurring dysfunction in systems engineering organizations \parencite{davidz2018}. Its categories help translate the general idea of organizational health into assessable systems engineering concerns. The OHA uses this pathology framing as a bridge between broad organizational health theory and the practical realities of engineering work.
+
+\section{Framework Requirements}
+The OHA framework is designed around six requirements:
+
+\begin{itemize}
+  \item \textbf{Brief administration.} The instrument should be short enough for recurring use by working teams.
+  \item \textbf{Domain coverage.} Items should sample multiple organizational subsystems rather than a single attitude or outcome.
+  \item \textbf{Positive interpretability.} Domain scores should be readable by practitioners and connected to plausible follow-up action.
+  \item \textbf{Multi-perspective use.} The framework should support responses from multiple organizational roles and levels.
+  \item \textbf{Comparator readiness.} Domains should map to a more comprehensive reference instrument for later characterization.
+  \item \textbf{Public documentation.} The framework should be transparent enough for research use and practitioner critique.
+\end{itemize}
+
+\section{The OHA Framework}
+The OHA operationalizes organizational health as a six-domain profile. The domains are grounded in systems engineering pathology, organizational health theory, and complex adaptive systems logic. The intended output is a domain-level profile rather than a single definitive diagnosis.
+
+\begingroup
+\renewcommand{\arraystretch}{1.4}
+\begin{tabularx}{\columnwidth}{@{}A{0.32\columnwidth}A{0.30\columnwidth}A{0.30\columnwidth}@{}}
+    \rowcolor{tableheader}
+    \headingfont\bfseries Domain &
+    \headingfont\bfseries Source &
+    \headingfont\bfseries SE-Relevant Focus \\
+    Knowledge \& Understanding & SE Pathology: Knowledge & Role clarity and goal alignment \\
+    Process Maturity & SE Pathology: Organization & Process definition and adaptability \\
+    Resource Allocation & SE Pathology: Resources & Adequacy of people, tools, and time \\
+    Leadership \& Decision-Making & SE Pathology and organizational health & Evidence-based decisions and direction setting \\
+    Culture \& Collaboration & CAS analog and SE Pathology & Trust and cross-functional integration \\
+    Implementation \& Execution & SE Pathology: Implementation & Plan execution and disruption management \\
+\end{tabularx}
+\captionof{table}{Preliminary OHA domains and systems engineering focus areas.}
+\label{tab:oha-domains}
+\endgroup
+\vspace{6pt}
+
+Each domain is intended to contain a small set of positively framed Likert-style items. Positive framing supports practitioner acceptability while still allowing low scores to indicate areas needing attention. Repeated administration is central to the design: a single measurement may identify a concern, but change over time is expected to carry much of the instrument's practical value.
+
+\section{Use and Interpretation}
+The OHA is designed for team, unit, or program-level monitoring. It should be administered to respondents with different perspectives on the same organizational unit, such as frontline practitioners, technical leads, supervisors, and executives. Agreement across perspectives can support confidence in a domain-level signal, while disagreement may itself be diagnostic of alignment problems.
+
+The framework should be interpreted as a screening architecture, not as a deployment-ready validated instrument. Its results are intended to guide follow-up conversations, deeper assessment, and instrument refinement. Later phases of the research program characterize the OHA computationally against a comprehensive organizational health reference assessment and then examine feasibility with real systems engineering teams.
 
 \section{Discussion}
-TODO: Explain how the framework contributes to practice and sets up later computational characterization.
+The primary contribution of this framework is not the claim that organizational health and mental health are the same phenomenon. They are not. The contribution is the disciplined transfer of brief-screener design logic from one complex adaptive system context to another. The OHA uses clinical screening as a methodological precedent, systems engineering pathology as a domain bridge, and organizational health theory as the target construct.
+
+This framing also clarifies the boundary of the claim. The OHA framework can be theoretically justified before it is empirically validated, but theoretical justification alone is insufficient for deployment. The framework therefore sets up a staged evidence path: first, conceptual development; second, computational characterization; third, pilot empirical assessment; and later, larger-scale validation.
 
 \section{Conclusion}
-TODO: State the bounded contribution and next steps.
+This paper presents the Organizational Health Assessment as a brief, public, six-domain framework for recurring organizational health monitoring in systems engineering settings. By combining brief psychometric screening logic, complex adaptive systems theory, and systems engineering pathology, the framework provides a defensible starting point for instrument development. Its value will depend on subsequent characterization, refinement, and validation, but the framework establishes a practical and theoretically grounded path toward routine organizational health screening.
 
-\printbibliography
+\newpage
+\section{References}
+\printbibliography[heading=none]
+
+% ---------- Biography Format ----------
+\newpage
+\phantomsection
+\makeatletter
+\renewcommand{\authorbioentry}[3]{%
+  \noindent\begin{tabular}{@{}m{0.5in} M{\dimexpr\columnwidth-0.5in\relax}@{}}
+    \authorpic{#1} &
+    {\headingfont\bfseries\raggedright\fontsize{12pt}{14pt}\selectfont #2}\par #3
+  \end{tabular}\par\medskip
+}
+\makeatother
+
+\section*{Biography}
+\authorbioentry{Images/Ryan.jpg}{Ryan Carr}{TODO: Add a short biography for Ryan Carr.}
+\authorbioentry{Images/Tom_Bradley.jpg}{Thomas Bradley}{TODO: Add a short biography for Thomas Bradley.}
+\authorbioentry{Images/Steve_Conrad.png}{Steve Conrad}{TODO: Add a short biography for Steve Conrad.}
+
+\end{multicols*}
 
 \end{document}
